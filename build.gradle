@@ -1,0 +1,79 @@
+// =====================
+// PLUGINS
+// =====================
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'org.sonarqube' version '4.4.1.3373'
+    id 'maven-publish'
+}
+
+// =====================
+// INFOS PROJET
+// =====================
+group = "SIL1"
+version = "1.0"
+
+// =====================
+// DEPOTS
+// =====================
+repositories {
+    mavenCentral()
+}
+
+// =====================
+// DEPENDANCES
+// =====================
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.cucumber:cucumber-java:7.18.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.18.1'
+    testImplementation 'net.masterthought:cucumber-reporting:5.7.7'
+}
+
+// =====================
+// TESTS
+// =====================
+test {
+    useJUnit()
+    finalizedBy jacocoTestReport
+
+    systemProperty 'cucumber.publish.enabled', 'false'
+    systemProperty 'cucumber.plugin',
+            'pretty, html:build/reports/cucumber/cucumber.html, json:build/reports/cucumber/cucumber.json'
+}
+
+// =====================
+// JACOCO
+// =====================
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required = true
+        xml.required = true
+    }
+}
+
+// =====================
+// SONARQUBE
+// =====================
+sonar {
+    properties {
+        property "sonar.projectKey", "sil1-project"
+        property "sonar.projectName", "SIL1 Project"
+        property "sonar.coverage.jacoco.xmlReportPaths",
+                "build/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.java.binaries", "build/classes/java/main"
+    }
+}
+
+// =====================
+// PUBLICATION MAVEN
+// =====================
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
