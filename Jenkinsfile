@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'gradle test'
+                bat  'gradle test'
             }
         }
     }
