@@ -13,6 +13,15 @@ pipeline {
                 bat './gradlew test'
             }
         }
+        stage('Code Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
+                        sh './gradlew sonarqube'
+                    }
+                }
+            }
+        }
 
     }
 }
