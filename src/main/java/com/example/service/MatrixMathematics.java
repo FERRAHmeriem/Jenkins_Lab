@@ -116,9 +116,16 @@ public class MatrixMathematics {
 	 * @return
 	 * @throws NoSquareException
 	 */
-	public static Matrix inverse(Matrix matrix) throws NoSquareException {
-		return (transpose(cofactor(matrix)).multiplyByConstant(1.0/determinant(matrix)));
-	}
-	
-	
+    public static Matrix inverse(Matrix matrix) throws NoSquareException {
+        double det = determinant(matrix);
+
+        if (det == 0) {
+            throw new ArithmeticException("Matrix is singular and cannot be inverted.");
+        }
+
+        return transpose(cofactor(matrix)).multiplyByConstant(1.0 / det);
+    }
+
+
+
 }
