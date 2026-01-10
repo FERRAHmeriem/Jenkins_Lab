@@ -58,4 +58,25 @@ pipeline {
         }
 }
     }
+    post {
+        success {
+            // Notification en cas de succès total (Phase 2.6)
+            slackSend(color: '#00FF00', 
+                      message: "✅ Déploiement réussi ! Le projet ${env.JOB_NAME} (build #${env.BUILD_NUMBER}) est disponible sur MyMavenRepo. \nPlus d'infos : ${env.BUILD_URL}")
+            
+            emailext(to: 'team-dev@exemple.com',
+                     subject: "SUCCESS: Project ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                     body: "Le déploiement s'est terminé avec succès. Le JAR a été poussé sur le dépôt Maven.")
+        }
+
+        failure {
+            // Notification en cas d'échec d'une des phases
+            slackSend(color: '#FF0000', 
+                      message: "❌ ÉCHEC du pipeline : ${env.JOB_NAME} (build #${env.BUILD_NUMBER}). \nConsultez les logs ici : ${env.BUILD_URL}console")
+            
+            emailext(to: 'team-dev@exemple.com',
+                     subject: "FAILURE: Project ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                     body: "Une erreur est survenue pendant le pipeline. Veuillez vérifier les logs sur Jenkins : ${env.BUILD_URL}")
+        }
+    }
 }
