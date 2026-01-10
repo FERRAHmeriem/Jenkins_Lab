@@ -32,5 +32,21 @@ pipeline {
                 }
             }
         }
+        stage('Build & Archive') {
+            steps {
+                script {
+                    // 1. Génération du Jar et 2. Génération de la Javadoc
+                    // On utilise la tâche 'generateJavadoc' que vous avez définie dans votre build.gradle
+                    bat './gradlew jar generateJavadoc'
+                    
+                    // 3. Archivage du fichier Jar et de la documentation
+                    // archiveArtifacts permet de conserver les fichiers dans l'interface Jenkins
+                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                    
+                    // On archive tout le dossier javadoc pour qu'il soit consultable
+                    archiveArtifacts artifacts: 'build/docs/javadoc/**/*', fingerprint: true
+                }
+            }
+        }
     }
 }
