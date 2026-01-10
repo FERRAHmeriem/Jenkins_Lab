@@ -64,10 +64,9 @@ pipeline {
             slackSend(color: '#00FF00', 
                       message: "✅ Déploiement réussi ! Le projet ${env.JOB_NAME} (build #${env.BUILD_NUMBER}) est disponible sur MyMavenRepo.")
             
-            emailext(to: 'ferrahmeriemfrrh@gmail.com',
-                     from:'mm_ferrah@esi.dz',
-                     subject: "SUCCESS: Project ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                     body: "Le déploiement s'est terminé avec succès. Le JAR a été poussé sur le dépôt Maven.")
+            mail to: 'ferrahmeriemfrrh@gmail.com',
+             subject: "Success: ${env.JOB_NAME}",
+             body: "Build réussi !"
         }
 
         failure {
