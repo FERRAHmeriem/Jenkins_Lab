@@ -48,5 +48,14 @@ pipeline {
                 }
             }
         }
+    stage('Deploy') {
+        steps {
+            script {
+                // On utilise la tâche 'publish' qui va envoyer le JAR vers le dépôt distant
+                // On passe les credentials via les variables d'environnement si nécessaire
+                bat './gradlew publish'
+            }
+        }
+}
     }
 }
