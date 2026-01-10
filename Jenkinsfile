@@ -65,6 +65,7 @@ pipeline {
                       message: "✅ Déploiement réussi ! Le projet ${env.JOB_NAME} (build #${env.BUILD_NUMBER}) est disponible sur MyMavenRepo.")
             
             emailext(to: 'ferrahmeriemfrrh@gmail.com',
+                     from:'mm_ferrah@esi.dz',
                      subject: "SUCCESS: Project ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
                      body: "Le déploiement s'est terminé avec succès. Le JAR a été poussé sur le dépôt Maven.")
         }
@@ -75,6 +76,7 @@ pipeline {
                       message: "❌ ÉCHEC du pipeline : ${env.JOB_NAME} (build #${env.BUILD_NUMBER}).")
             
             emailext(to: 'ferrahmeriemfrrh@gmail.com',
+                      from:'mm_ferrah@esi.dz',
                      subject: "FAILURE: Project ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
                      body: "Une erreur est survenue pendant le pipeline. Veuillez vérifier les logs sur Jenkins : ${env.BUILD_URL}")
         }
