@@ -10,24 +10,27 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                bat './gradlew test'
+                bat './gradlew clean test jacocoTestReport'
             }
         }
 
         stage('Code Analysis') {
             steps {
-                        bat './gradlew sonar'
-
+                // Le wrapper 'withSonarQubeEnv' prépare les variables d'environnement
+                // 'SonarQube' est le nom configuré dans Administrer Jenkins > System
+                withSonarQubeEnv('SonarQube') {
+                    bat './gradlew sonar'
+                }
             }
         }
+
         stage('Quality Gate') {
-                    steps {
-                        // Cette étape attend le retour de SonarQube
-                        // Le pipeline s'arrête en erreur (Failed) si le Quality Gate échoue
-                        timeout(time: 5, unit: 'MINUTES') { 
-                            waitForQualityGate abortPipeline: true
-                        }
-                    }
-         }
+            steps {
+                // Maintenant Jenkins sait quelle analyse attendre
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
     }
 }
