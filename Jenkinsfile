@@ -63,14 +63,13 @@ pipeline {
             // Notification en cas de succès total (Phase 2.6)
             slackSend(color: '#00FF00', 
                       message: "✅ Déploiement réussi ! Le projet ${env.JOB_NAME} (build #${env.BUILD_NUMBER}) est disponible sur MyMavenRepo.")
-            
-            mail to: 'ferrahmeriemfrrh@gmail.com',
-             subject: "Success: ${env.JOB_NAME}",
-             body: "Build réussi !"
+            emailext(to: 'ferrahmeriemfrrh@gmail.com',
+                      from:'mm_ferrah@esi.dz',
+                     subject: "SUCCESS: Project ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                     body: "Build réussi !")
         }
 
         failure {
-            // Notification en cas d'échec d'une des phases
             slackSend(color: '#FF0000', 
                       message: "❌ ÉCHEC du pipeline : ${env.JOB_NAME} (build #${env.BUILD_NUMBER}).")
             
