@@ -65,7 +65,8 @@ pipeline {
         always {
             // Cette commande transforme le fichier JSON en rapport visuel
             cucumber buildStatus: "null", 
-                     fileIncludePattern: '**/build/cucumber/*.json', 
+                     fileIncludePattern: '**/*.json', 
+                     jsonReportDirectory: 'build/cucumber/', // Dossier où Gradle dépose le JSON
                      sortingMethod: 'ALPHABETICAL'
         }
         failure {
