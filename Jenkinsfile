@@ -12,12 +12,17 @@ pipeline {
             steps {
                 script {
                     try {
+                        // 1. Lancement des tests
                         bat './gradlew clean test jacocoTestReport'
                     } finally {
+                        // 2. Archivage des résultats des tests unitaires (JUnit)
                         junit '**/build/test-results/**/*.xml'
 
-                        cucumber 
+                        // 3. Génération du rapport Cucumber
+                        cucumber buildStatus: "null",
                                  jsonReportDirectory: 'reports/',
+                                 fileIncludePattern: '**/*.json',
+                                 sortingMethod: 'ALPHABETICAL'
                     }
                 }
             }
