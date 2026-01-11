@@ -16,10 +16,8 @@ pipeline {
                     } finally {
                         junit '**/build/test-results/**/*.xml'
 
-                        cucumber buildStatus: "null", 
-                                 fileIncludePattern: '**/*.json', 
-                                 jsonReportDirectory: 'build/cucumber/',
-                                 sortingMethod: 'ALPHABETICAL'
+                        cucumber 
+                                 jsonReportDirectory: 'reports/',
                     }
                 }
             }
