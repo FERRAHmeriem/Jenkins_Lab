@@ -20,9 +20,9 @@ pipeline {
 
                         // 3. Génération du rapport Cucumber
                         cucumber buildStatus: "null",
-                                 jsonReportDirectory: 'reports/',
-                                 fileIncludePattern: '**/*.json',
-                                 sortingMethod: 'ALPHABETICAL'
+                             fileIncludePattern: 'reports/*.json', // Chemin direct vers votre dossier
+                             jsonReportDirectory: '.',             // On part de la racine du workspace
+                             sortingMethod: 'ALPHABETICAL'
                         archiveArtifacts artifacts: 'reports/**/*.json, build/reports/tests/test/**/*', fingerprint: true
                     }
                 }
