@@ -23,6 +23,7 @@ pipeline {
                                  jsonReportDirectory: 'reports/',
                                  fileIncludePattern: '**/*.json',
                                  sortingMethod: 'ALPHABETICAL'
+                        archiveArtifacts artifacts: 'reports/**/*.json, build/reports/tests/test/**/*', fingerprint: true
                     }
                 }
             }
