@@ -62,6 +62,12 @@ pipeline {
     }
 
     post {
+        always {
+            // Cette commande transforme le fichier JSON en rapport visuel
+            cucumber buildStatus: "null", 
+                     fileIncludePattern: '**/build/cucumber/*.json', 
+                     sortingMethod: 'ALPHABETICAL'
+        }
         failure {
             // This catches failures from ANY stage above
             script {
