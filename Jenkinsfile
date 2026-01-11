@@ -8,9 +8,20 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+       stage('La phase Test') {
             steps {
-                bat './gradlew clean test jacocoTestReport'
+                script {
+                    try {
+                        bat './gradlew clean test jacocoTestReport'
+                    } finally {
+                        junit '**/build/test-results/**/*.xml'
+
+                        cucumber buildStatus: "null", 
+                                 fileIncludePattern: '**/*.json', 
+                                 jsonReportDirectory: 'build/cucumber/',
+                                 sortingMethod: 'ALPHABETICAL'
+                    }
+                }
             }
         }
 
@@ -62,13 +73,6 @@ pipeline {
     }
 
     post {
-        always {
-            // Cette commande transforme le fichier JSON en rapport visuel
-            cucumber buildStatus: "null", 
-                     fileIncludePattern: '**/*.json', 
-                     jsonReportDirectory: 'build/cucumber/', // Dossier où Gradle dépose le JSON
-                     sortingMethod: 'ALPHABETICAL'
-        }
         failure {
             // This catches failures from ANY stage above
             script {
